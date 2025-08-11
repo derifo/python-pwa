@@ -1,0 +1,32 @@
+{
+  "id": "m1-l8-lists-dicts",
+  "title": "Lists and Dictionaries",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Lists store ordered items, dictionaries store key-value pairs."
+    },
+    {
+      "type": "example",
+      "starterCode": "fruits = ['apple', 'banana']\nprices = {'apple': 1, 'banana': 2}\nprint(fruits)\nprint(prices)",
+      "explainMarkdown": "Shows list and dictionary."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Create a list of 3 numbers and print the second one.",
+      "starterCode": "# TODO: list of 3 numbers",
+      "tests": [
+        { "type": "includes", "match": "2" }
+      ],
+      "hints": ["Lists use []", "Index starts at 0"],
+      "solutionCode": "nums = [1, 2, 3]\nprint(nums[1])"
+    },
+    {
+      "type": "quiz",
+      "question": "Which uses `{}`?",
+      "choices": ["Lists", "Dictionaries", "Tuples"],
+      "answerIndex": 1,
+      "explainMarkdown": "Dictionaries use curly braces."
+    }
+  ]
+}

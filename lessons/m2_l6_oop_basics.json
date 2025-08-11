@@ -1,0 +1,32 @@
+{
+  "id": "m2-l6-oop-basics",
+  "title": "OOP Basics",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Object-Oriented Programming organizes code into classes and objects."
+    },
+    {
+      "type": "example",
+      "starterCode": "class Person:\n    def __init__(self, name):\n        self.name = name\n\n    def greet(self):\n        print(f'Hello, I am {self.name}')\n\np = Person('Alice')\np.greet()",
+      "explainMarkdown": "Defines and uses a class."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Create a class Dog with name and a bark() method.",
+      "starterCode": "# TODO: Dog class",
+      "tests": [
+        { "type": "includes", "match": "Woof" }
+      ],
+      "hints": ["Use class keyword", "Define __init__"],
+      "solutionCode": "class Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        print('Woof!')\nd = Dog('Buddy')\nd.bark()"
+    },
+    {
+      "type": "quiz",
+      "question": "What does `__init__` do?",
+      "choices": ["Destroys an object", "Initializes an object", "Calls a method"],
+      "answerIndex": 1,
+      "explainMarkdown": "`__init__` initializes object attributes."
+    }
+  ]
+}

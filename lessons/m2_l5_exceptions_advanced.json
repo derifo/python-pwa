@@ -1,0 +1,32 @@
+{
+  "id": "m2-l5-exceptions-advanced",
+  "title": "Advanced Exception Handling",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "You can catch multiple exceptions and use finally to run code regardless of errors."
+    },
+    {
+      "type": "example",
+      "starterCode": "try:\n    x = int('abc')\nexcept (ValueError, TypeError):\n    print('Error!')\nfinally:\n    print('Done.')",
+      "explainMarkdown": "Catches multiple exception types."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Handle ZeroDivisionError when dividing numbers.",
+      "starterCode": "# TODO: try-except-finally",
+      "tests": [
+        { "type": "includes", "match": "Cannot divide" }
+      ],
+      "hints": ["Catch ZeroDivisionError"],
+      "solutionCode": "try:\n    a = int(input())\n    b = int(input())\n    print(a / b)\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')"
+    },
+    {
+      "type": "quiz",
+      "question": "Which block always runs?",
+      "choices": ["try", "except", "finally"],
+      "answerIndex": 2,
+      "explainMarkdown": "`finally` runs no matter what."
+    }
+  ]
+}

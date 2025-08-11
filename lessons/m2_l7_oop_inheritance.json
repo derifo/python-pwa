@@ -1,0 +1,32 @@
+{
+  "id": "m2-l7-oop-inheritance",
+  "title": "OOP Inheritance",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Inheritance allows a class to use attributes and methods of another class."
+    },
+    {
+      "type": "example",
+      "starterCode": "class Animal:\n    def speak(self):\n        print('Some sound')\n\nclass Dog(Animal):\n    def speak(self):\n        print('Woof!')\n\nd = Dog()\nd.speak()",
+      "explainMarkdown": "Dog inherits from Animal and overrides speak."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Create a Cat class that inherits from Animal and overrides speak to print 'Meow!'.",
+      "starterCode": "# TODO: Cat class",
+      "tests": [
+        { "type": "includes", "match": "Meow" }
+      ],
+      "hints": ["Use class Cat(Animal):", "Override speak()"],
+      "solutionCode": "class Animal:\n    def speak(self):\n        print('Some sound')\n\nclass Cat(Animal):\n    def speak(self):\n        print('Meow!')\nc = Cat()\nc.speak()"
+    },
+    {
+      "type": "quiz",
+      "question": "Which keyword is used to inherit from a parent class?",
+      "choices": ["parent", "extends", "class Child(Parent)"],
+      "answerIndex": 2,
+      "explainMarkdown": "Python uses `class Child(Parent)` syntax."
+    }
+  ]
+}

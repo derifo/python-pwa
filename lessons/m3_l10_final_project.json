@@ -1,0 +1,30 @@
+{
+  "id": "m3-l10-final-project",
+  "title": "Final Project",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Your final project will combine everything learned so far."
+    },
+    {
+      "type": "example",
+      "starterCode": "# Example: Simple To-Do App\ntodos = []\nwhile True:\n    task = input('Task (or quit): ')\n    if task == 'quit':\n        break\n    todos.append(task)\nprint(todos)",
+      "explainMarkdown": "This integrates loops, lists, and input handling."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Create a program that stores contacts in a dictionary and allows searching by name.",
+      "starterCode": "# TODO: contact book",
+      "tests": [],
+      "hints": ["Use a dictionary", "Use input() in a loop"],
+      "solutionCode": "contacts = {}\nwhile True:\n    name = input('Name (or quit): ')\n    if name == 'quit':\n        break\n    phone = input('Phone: ')\n    contacts[name] = phone\nprint(contacts)"
+    },
+    {
+      "type": "quiz",
+      "question": "What is the key benefit of a final project?",
+      "choices": ["To memorize syntax", "To integrate concepts", "To compete with others"],
+      "answerIndex": 1,
+      "explainMarkdown": "A final project helps integrate all learned skills."
+    }
+  ]
+}

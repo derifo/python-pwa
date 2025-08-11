@@ -1,0 +1,30 @@
+{
+  "id": "m3-l9-best-practices",
+  "title": "Best Practices",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Write readable code: follow PEP 8, use meaningful variable names, and comment wisely."
+    },
+    {
+      "type": "example",
+      "starterCode": "# Good\nuser_name = 'Alice'\n\n# Bad\nx = 'Alice'",
+      "explainMarkdown": "Clear variable names improve code readability."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Refactor a variable name to be more descriptive.",
+      "starterCode": "a = 5  # TODO: rename",
+      "tests": [],
+      "hints": ["Choose a descriptive name"],
+      "solutionCode": "user_age = 5"
+    },
+    {
+      "type": "quiz",
+      "question": "What is PEP 8?",
+      "choices": ["Python Enhancement Proposal", "A Python library", "A code editor"],
+      "answerIndex": 0,
+      "explainMarkdown": "PEP 8 is Python's style guide."
+    }
+  ]
+}

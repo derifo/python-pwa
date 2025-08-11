@@ -1,0 +1,33 @@
+{
+  "id": "m2-l8-oop-polymorphism",
+  "title": "OOP Polymorphism",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Polymorphism means the same interface can be used for different types of objects."
+    },
+    {
+      "type": "example",
+      "starterCode": "class Dog:\n    def speak(self):\n        print('Woof!')\n\nclass Cat:\n    def speak(self):\n        print('Meow!')\n\nfor animal in [Dog(), Cat()]:\n    animal.speak()",
+      "explainMarkdown": "Both Dog and Cat implement speak()."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Create two classes with the same method name but different outputs.",
+      "starterCode": "# TODO: polymorphism example",
+      "tests": [
+        { "type": "includes", "match": "Woof" },
+        { "type": "includes", "match": "Meow" }
+      ],
+      "hints": ["Both classes must have same method name"],
+      "solutionCode": "class Dog:\n    def speak(self):\n        print('Woof!')\nclass Cat:\n    def speak(self):\n        print('Meow!')\nDog().speak()\nCat().speak()"
+    },
+    {
+      "type": "quiz",
+      "question": "What is polymorphism?",
+      "choices": ["Multiple inheritance", "Same method name with different behaviors", "Overloading functions"],
+      "answerIndex": 1,
+      "explainMarkdown": "Polymorphism is same method, different behavior."
+    }
+  ]
+}

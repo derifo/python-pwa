@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#1e1e1e" />
+  <title>Python Learn PWA</title>
+
+  <link rel="manifest" href="pwa/manifest.json" />
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Python Learn</h1>
+    <div class="header-actions">
+      <button id="themeToggle" title="Toggle Theme">🌙</button>
+      <button id="installBtn" hidden title="Install App">📲</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <nav class="sidebar" id="lessonList"></nav>
+    <main class="main-content">
+      <section id="lessonContent" class="lesson-view"></section>
+      <section class="editor-section">
+        <div id="editor" class="code-editor" contenteditable="true"></div>
+        <div class="editor-toolbar">
+          <button id="runBtn">▶ Run</button>
+          <button id="clearOutputBtn">🗑 Clear</button>
+        </div>
+        <pre id="output" class="output-pane"></pre>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/app.js" type="module"></script>
+</body>
+</html>

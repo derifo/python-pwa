@@ -1,0 +1,32 @@
+{
+  "id": "m1-l9-strings",
+  "title": "Strings",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Strings are text. Use `+` to concatenate, `[]` to slice."
+    },
+    {
+      "type": "example",
+      "starterCode": "s = 'Python'\nprint(s[0:3])",
+      "explainMarkdown": "`s[0:3]` gives 'Pyt'."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Ask for a word and print it in uppercase.",
+      "starterCode": "# TODO: uppercase word",
+      "tests": [
+        { "type": "includes", "match": "HELLO", "inputs": ["hello"] }
+      ],
+      "hints": ["Use upper() method"],
+      "solutionCode": "word = input('Word: ')\nprint(word.upper())"
+    },
+    {
+      "type": "quiz",
+      "question": "What does `len('abc')` return?",
+      "choices": ["2", "3", "4"],
+      "answerIndex": 1,
+      "explainMarkdown": "`len()` counts characters."
+    }
+  ]
+}

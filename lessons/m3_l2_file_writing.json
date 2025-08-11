@@ -1,0 +1,32 @@
+{
+  "id": "m3-l2-file-writing",
+  "title": "File Writing",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Writing files uses `open()` with 'w' (write) or 'a' (append) mode."
+    },
+    {
+      "type": "example",
+      "starterCode": "with open('output.txt', 'w') as f:\n    f.write('Hello, file!')",
+      "explainMarkdown": "'w' overwrites existing content."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Write 'Python is fun!' to a file named `fun.txt`.",
+      "starterCode": "# TODO: write to file",
+      "tests": [
+        { "type": "includes", "match": "Python" }
+      ],
+      "hints": ["Use 'w' mode"],
+      "solutionCode": "with open('fun.txt', 'w') as f:\n    f.write('Python is fun!')"
+    },
+    {
+      "type": "quiz",
+      "question": "What mode appends to a file?",
+      "choices": ["a", "w", "append"],
+      "answerIndex": 0,
+      "explainMarkdown": "'a' mode appends."
+    }
+  ]
+}

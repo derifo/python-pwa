@@ -1,0 +1,32 @@
+{
+  "id": "m2-l2-comprehensions",
+  "title": "List and Dict Comprehensions",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Comprehensions create lists/dicts from iterables in one line."
+    },
+    {
+      "type": "example",
+      "starterCode": "squares = [x**2 for x in range(5)]\nprint(squares)",
+      "explainMarkdown": "Generates [0, 1, 4, 9, 16]."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Create a dictionary mapping numbers to their cubes for 1 to 3.",
+      "starterCode": "# TODO: dict comprehension",
+      "tests": [
+        { "type": "includes", "match": "27" }
+      ],
+      "hints": ["Use {x: x**3 for x in ...}"],
+      "solutionCode": "cubes = {x: x**3 for x in range(1, 4)}\nprint(cubes)"
+    },
+    {
+      "type": "quiz",
+      "question": "What does `[x for x in range(3)]` return?",
+      "choices": ["[0, 1, 2]", "(0, 1, 2)", "{0, 1, 2}"],
+      "answerIndex": 0,
+      "explainMarkdown": "List comprehensions return lists."
+    }
+  ]
+}
