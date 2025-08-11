@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Python Learn</title>
 
-  <!-- Base path for GitHub Pages -->
+  <!-- Project Page base (derifo.github.io/python-pwa/) -->
   <base href="/python-pwa/">
 
-  <!-- Apple-style PWA support -->
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
+  <link rel="icon" href="assets/icons/icon-192.png" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0f19" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
-  <meta name="theme-color" content="#ffffff" />
 
-  <!-- CSS Variables + Apple-style theme -->
+  <!-- Apple-like theme -->
   <style>
     :root {
       --bg: #ffffff;
@@ -22,6 +25,9 @@
       --accent: #0071e3;
       --muted: #6e6e73;
       --panel: #f5f5f7;
+      --border: #e5e5ea;
+      --radius: 12px;
+      --wrap: 1100px;
     }
     [data-theme="dark"] {
       --bg: #000000;
@@ -29,7 +35,9 @@
       --accent: #0a84ff;
       --muted: #a1a1a6;
       --panel: #1c1c1e;
+      --border: #2c2c2e;
     }
+    html, body { height: 100%; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -37,140 +45,17 @@
       color: var(--fg);
       transition: background-color 0.3s, color 0.3s;
     }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 1.25rem; }
+
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: var(--panel);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.75rem 1rem;
+      background-color: color-mix(in oklab, var(--panel) 85%, transparent);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
     }
-    header h1 {
-      font-weight: 600;
-      font-size: 1.4rem;
-      margin: 0;
-    }
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: var(--fg);
-      transition: color 0.3s;
-    }
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    #lessonList {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-    #lessonList button {
-      background-color: var(--panel);
-      border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      color: var(--fg);
-      transition: background-color 0.2s;
-    }
-    #lessonList button:hover {
-      background-color: var(--accent);
-      color: #fff;
-    }
-    #lessonContent {
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-    textarea#editor {
-      width: 100%;
-      height: 200px;
-      background-color: var(--panel);
-      color: var(--fg);
-      border: none;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      font-family: monospace;
-      font-size: 1rem;
-      resize: vertical;
-    }
-    .buttons {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    button.run, button.clear {
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      background-color: var(--accent);
-      color: #fff;
-      transition: background-color 0.2s;
-    }
-    button.clear {
-      background-color: var(--muted);
-    }
-    pre#output {
-      background-color: var(--panel);
-      padding: 1rem;
-      border-radius: 0.5rem;
-      margin-top: 1rem;
-      white-space: pre-wrap;
-      font-family: monospace;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Python Learn</h1>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
-  </header>
-
-  <main>
-    <div id="lessonList"></div>
-    <div id="lessonContent"></div>
-
-    <textarea id="editor" placeholder="Write your Python code here..."></textarea>
-    <div class="buttons">
-      <button class="run" id="runBtn">Run</button>
-      <button class="clear" id="clearOutputBtn">Clear Output</button>
-    </div>
-    <pre id="output"></pre>
-  </main>
-
-  <script type="module" src="app/app.js"></script>
-
-  <script>
-    // Theme toggle logic
-    const themeToggle = document.getElementById('themeToggle');
-    const root = document.documentElement;
-
-    function setTheme(mode) {
-      root.setAttribute('data-theme', mode);
-      localStorage.setItem('theme', mode);
-      themeToggle.textContent = mode === 'dark' ? '☀️' : '🌙';
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme') || 'light';
-      setTheme(current === 'light' ? 'dark' : 'light');
-    });
-
-    // Initialize theme from localStorage or prefers-color-scheme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    }
-  </script>
-</body>
-</html>
+    header .left, header .right { display: flex; gap: .5rem; align-items: center; }
+    header h1 { font-weight: 600; font-size: 1.25rem; margin: 0; }
+    .btn, .icon-btn {
+      displa
