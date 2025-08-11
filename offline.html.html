@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3776ab">
+    <title>Learn Python - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .offline-icon svg {
+            width: 60px;
+            height: 60px;
+            fill: #999;
+        }
+        
+        .offline-icon::after {
+            content: '❌';
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+        }
+        
+        .features h3 {
+            color: #3776ab;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .feature-item::before {
+            content: '✓';
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        .feature-item.disabled {
+            opacity: 0.5;
+        }
+        
+        .feature-item.disabled::before {
+            content: '✗';
+            color: #f44336;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #3776ab;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2d5f8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(55, 118, 171, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+        
+        .tips {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 12px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .tips h4 {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tips ul {
+            list-style: none;
+            color: #856404;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .tips li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .tips li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+        }
+        
+        .python-animation {
+            margin: 20px 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .python-logo {
+            width: 50px;
+            height: 50px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .offline-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+        </div>
+        
+        <h1>You're Offline</h1>
+        <p class="subtitle">Don't worry! You can still access some features of Learn Python.</p>
+        
+        <div class="python-animation">
+            <div class="python-logo">🐍</div>
+        </div>
+        
+        <div class="features">
+            <h3>Available Offline:</h3>
+            <div class="feature-item">View previously cached lessons</div>
+            <div class="feature-item">Practice with the code editor</div>
+            <div class="feature-item">Review your saved progress</div>
+            <div class="feature-item disabled">Download new lessons</div>
+            <div class="feature-item disabled">Sync your progress</div>
+            <div class="feature-item disabled">Access online resources</div>
+        </div>
+        
+        <div class="tips">
+            <h4>💡 Offline Tips:</h4>
+            <ul>
+                <li>Your work is saved locally and will sync when you're back online</li>
+                <li>Previously viewed lessons are available from cache</li>
+                <li>The Python interpreter works completely offline</li>
+                <li>Check your internet connection and try refreshing</li>
+            </ul>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.location.reload()">
+                Try Again
+            </button>
+            <button class="btn btn-secondary" onclick="window.history.back()">
+                Go Back
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Check if we're back online
+        window.addEventListener('online', () => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+        
+        // Animate the offline icon
+        const icon = document.querySelector('.offline-icon');
+        setInterval(() => {
+            icon.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                icon.style.transform = 'scale(1)';
+            }, 200);
+        }, 3000);
+    </script>
+</body>
+</html>
