@@ -1,4 +1,4 @@
-// app.js - Fixed version with proper regex
+// app.js - Complete fixed version
 import { loadLessons, loadLesson } from './store.js';
 import { runCode } from '../core/executor.js';
 
@@ -19,7 +19,7 @@ async function init() {
   // Register service worker
   if ('serviceWorker' in navigator) {
     try {
-      await navigator.serviceWorker.register('/python-pwa/sw.js');
+      await navigator.serviceWorker.register('/sw.js');
       console.log('Service Worker registered');
     } catch (error) {
       console.log('Service Worker registration failed:', error);
@@ -46,7 +46,7 @@ async function loadLessonsData() {
   } catch (error) {
     console.error('Failed to load lessons:', error);
     document.getElementById('moduleList').innerHTML = 
-      '<div style="padding: 20px; color: var(--error);">Failed to load lessons</div>';
+      '<div style="padding: 20px; color: var(--error);">Failed to load lessons. Check console for details.</div>';
   }
 }
 
@@ -54,7 +54,7 @@ async function loadLessonsData() {
 function organizeModules() {
   modules = {};
 
-  // Sort lessons properly (M1L1, M1L2, ..., M1L10, M2L1, etc.)
+  // Sort lessons properly
   lessons.sort((a, b) => {
     const aMatch = a.id.match(/m(\d+)-l(\d+)/);
     const bMatch = b.id.match(/m(\d+)-l(\d+)/);
@@ -219,16 +219,12 @@ function renderLessonContent(lesson) {
         // Convert markdown-style content to HTML
         let content = section.content;
 
-        // Convert code blocks - Fixed regex
-        const codeBlockRegex = /```python\n([\s\S]*?)```/g;
-        content = content.replace(codeBlockRegex, '<pre><code>$1</code></pre>');
-
-        const genericCodeBlockRegex = /```\n([\s\S]*?)```/g;
-        content = content.replace(genericCodeBlockRegex, '<pre><code>$1</code></pre>');
+        // Convert code blocks - properly escaped
+        content = content.replace(/```python([^`]*)```/g, '<pre><code>$1</code></pre>');
+        content = content.replace(/```([^`]*)```/g, '<pre><code>$1</code></pre>');
 
         // Convert inline code
-        const inlineCodeRegex = /`([^`]+)`/g;
-        content = content.replace(inlineCodeRegex, '<code>$1</code>');
+        content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
 
         // Convert line breaks to paragraphs
         const paragraphs = content.split('\n\n');
@@ -302,10 +298,15 @@ function updateProgress() {
   const total = lessons.length;
   const percent = total > 0 ? Math.round((completed.length / total) * 100) : 0;
 
-  document.getElementById('completedCount').textContent = completed.length;
-  document.getElementById('totalCount').textContent = total;
-  document.getElementById('progressPercent').textContent = percent + '%';
-  document.getElementById('progressBar').style.width = percent + '%';
+  const completedCount = document.getElementById('completedCount');
+  const totalCount = document.getElementById('totalCount');
+  const progressPercent = document.getElementById('progressPercent');
+  const progressBar = document.getElementById('progressBar');
+
+  if (completedCount) completedCount.textContent = completed.length;
+  if (totalCount) totalCount.textContent = total;
+  if (progressPercent) progressPercent.textContent = percent + '%';
+  if (progressBar) progressBar.style.width = percent + '%';
 }
 
 // Show notification
