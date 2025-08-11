@@ -2,31 +2,22 @@
   "id": "m1-l3-input-output",
   "title": "Input and Output",
   "sections": [
-    {
-      "type": "read",
-      "contentMarkdown": "Use `input()` to get user input. Use `print()` to display output."
-    },
-    {
-      "type": "example",
-      "starterCode": "name = input('Your name: ')\nprint(f'Hello, {name}!')",
-      "explainMarkdown": "Asks for your name and greets you."
-    },
+    { "type": "read", "contentMarkdown": "`input()` reads text; `print()` shows text." },
+    { "type": "example", "starterCode": "name = input('Your name: ')\nprint(f'Hello, {name}!')", "explainMarkdown": "Greets the user." },
     {
       "type": "exercise",
-      "promptMarkdown": "Ask for a number, multiply it by 2, and print the result.",
-      "starterCode": "# TODO: ask for a number, multiply by 2, print result",
-      "tests": [
-        { "type": "includes", "match": "4", "inputs": ["2"] }
-      ],
-      "hints": ["Use int(input()) to convert", "Multiply by 2"],
-      "solutionCode": "n = int(input('Number: '))\nprint(n * 2)"
+      "promptMarkdown": "Ask a number, print it *2.",
+      "starterCode": "# TODO",
+      "tests": [{ "type": "includes", "match": "4", "inputs": ["2"] }],
+      "hints": ["int(input())", "Multiply by 2"],
+      "solutionCode": "n = int(input('Number: '))\nprint(n*2)"
     },
     {
       "type": "quiz",
-      "question": "What type does `input()` return?",
+      "question": "What type does input() return?",
       "choices": ["int", "str", "bool"],
       "answerIndex": 1,
-      "explainMarkdown": "`input()` always returns a string."
+      "explainMarkdown": "Always a string."
     }
   ]
 }
