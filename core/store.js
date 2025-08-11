@@ -1,43 +1,35 @@
 export async function loadLessonsList() {
-  try {
-    // Fix: Use a more reliable path construction
-    const basePath = window.location.pathname.endsWith('/') 
-      ? window.location.pathname 
-      : window.location.pathname + '/';
-    const res = await fetch(`${basePath}lessons/index.json`);
+  const basePath = window.location.pathname.endsWith('/') 
+    ? window.location.pathname 
+    : window.location.pathname + '/';
 
-    if (!res.ok) {
-      throw new Error(`Failed to load lessons: ${res.status}`);
-    }
+  const res = await fetch(`${basePath}lessons/index.json`);
 
-    const data = await res.json();
-
-    return data.map(lesson => ({
-      ...lesson,
-      completed: !!localStorage.getItem(`lesson-${lesson.id}-completed`)
-    }));
-  } catch (error) {
-    console.error('Error loading lessons list:', error);
-    throw error;
+  if (!res.ok) {
+    throw new Error(`Failed to load lessons list: ${res.status}`);
   }
+
+  const data = await res.json();
+
+  return data.map(lesson => ({
+    ...lesson,
+    completed: !!localStorage.getItem(`lesson-${lesson.id}-completed`)
+  }));
 }
 
 export async function loadLesson(id) {
-  try {
-    const basePath = window.location.pathname.endsWith('/') 
-      ? window.location.pathname 
-      : window.location.pathname + '/';
-    const res = await fetch(`${basePath}lessons/${id}.json`);
+  const basePath = window.location.pathname.endsWith('/') 
+    ? window.location.pathname 
+    : window.location.pathname + '/';
 
-    if (!res.ok) {
-      throw new Error(`Failed to load lesson ${id}: ${res.status}`);
-    }
+  // FIX: Load the individual lesson file, not index.json!
+  const res = await fetch(`${basePath}lessons/${id}.json`);
 
-    return await res.json();
-  } catch (error) {
-    console.error(`Error loading lesson ${id}:`, error);
-    throw error;
+  if (!res.ok) {
+    throw new Error(`Failed to load lesson ${id}: ${res.status}`);
   }
+
+  return await res.json();
 }
 
 export function completeLesson(id) {
