@@ -1,34 +1,122 @@
 [
-  { "id": "m1-l1-hello-world", "title": "M1L1: Hello, World!" },
-  { "id": "m1-l2-variables", "title": "M1L2: Variables and Types" },
-  { "id": "m1-l3-input-output", "title": "M1L3: Input and Output" },
-  { "id": "m1-l4-operators", "title": "M1L4: Operators" },
-  { "id": "m1-l5-control-flow", "title": "M1L5: Control Flow" },
-  { "id": "m1-l6-loops", "title": "M1L6: Loops" },
-  { "id": "m1-l7-functions", "title": "M1L7: Functions" },
-  { "id": "m1-l8-lists-dicts", "title": "M1L8: Lists and Dictionaries" },
-  { "id": "m1-l9-strings", "title": "M1L9: Strings" },
-  { "id": "m1-l10-errors", "title": "M1L10: Errors and Exceptions" },
-
-  { "id": "m2-l1-tuples-sets", "title": "M2L1: Tuples and Sets" },
-  { "id": "m2-l2-adv-functions", "title": "M2L2: Advanced Functions" },
-  { "id": "m2-l3-modules", "title": "M2L3: Modules and Packages" },
-  { "id": "m2-l4-file-handling", "title": "M2L4: File Handling" },
-  { "id": "m2-l5-list-comprehensions", "title": "M2L5: List Comprehensions" },
-  { "id": "m2-l6-datetime", "title": "M2L6: Working with Dates & Times" },
-  { "id": "m2-l7-adv-dicts", "title": "M2L7: More on Dictionaries" },
-  { "id": "m2-l8-adv-errors", "title": "M2L8: Advanced Error Handling" },
-  { "id": "m2-l9-venv-pip", "title": "M2L9: Virtual Environments & pip" },
-  { "id": "m2-l10-todo-cli", "title": "M2L10: CLI To-Do App" },
-
-  { "id": "m3-l1-oop-intro", "title": "M3L1: Intro to OOP" },
-  { "id": "m3-l2-attributes-methods", "title": "M3L2: Attributes and Methods" },
-  { "id": "m3-l3-inheritance", "title": "M3L3: Inheritance" },
-  { "id": "m3-l4-special-methods", "title": "M3L4: Special Methods" },
-  { "id": "m3-l5-csv", "title": "M3L5: Working with CSV Files" },
-  { "id": "m3-l6-json", "title": "M3L6: Working with JSON Data" },
-  { "id": "m3-l7-data-analysis", "title": "M3L7: Basic Data Analysis" },
-  { "id": "m3-l8-contact-book", "title": "M3L8: Contact Book Project" },
-  { "id": "m3-l9-apis", "title": "M3L9: Python and APIs" },
-  { "id": "m3-l10-expense-tracker", "title": "M3L10: Expense Tracker Project" }
+  {
+    "id": "m1-l1-hello-world",
+    "title": "M1L1: Hello, World!"
+  },
+  {
+    "id": "m1-l10-errors",
+    "title": "M1L10: Errors and Exceptions"
+  },
+  {
+    "id": "m1-l2-variables",
+    "title": "M1L2: Variables and Types"
+  },
+  {
+    "id": "m1-l3-input-output",
+    "title": "M1L3: Input and Output"
+  },
+  {
+    "id": "m1-l4-operators",
+    "title": "M1L4: Operators"
+  },
+  {
+    "id": "m1-l5-control-flow",
+    "title": "M1L5: Control Flow"
+  },
+  {
+    "id": "m1-l6-loops",
+    "title": "M1L6: Loops"
+  },
+  {
+    "id": "m1-l7-functions",
+    "title": "M1L7: Functions"
+  },
+  {
+    "id": "m1-l8-lists-dicts",
+    "title": "M1L8: Lists and Dictionaries"
+  },
+  {
+    "id": "m1-l9-strings",
+    "title": "M1L9: Strings"
+  },
+  {
+    "id": "m2-l1-advanced-functions",
+    "title": "M2L1: Advanced Functions"
+  },
+  {
+    "id": "m2-l10-oop-abstraction",
+    "title": "M2L10: OOP - Abstraction"
+  },
+  {
+    "id": "m2-l2-comprehensions",
+    "title": "M2L2: List Comprehensions"
+  },
+  {
+    "id": "m2-l3-modules",
+    "title": "M2L3: Modules and Packages"
+  },
+  {
+    "id": "m2-l4-file-io",
+    "title": "M2L4: File Input/Output"
+  },
+  {
+    "id": "m2-l5-exceptions-advanced",
+    "title": "M2L5: Advanced Exception Handling"
+  },
+  {
+    "id": "m2-l6-oop-basics",
+    "title": "M2L6: OOP Basics"
+  },
+  {
+    "id": "m2-l7-oop-inheritance",
+    "title": "M2L7: OOP - Inheritance"
+  },
+  {
+    "id": "m2-l8-oop-polymorphism",
+    "title": "M2L8: OOP - Polymorphism"
+  },
+  {
+    "id": "m2-l9-oop-encapsulation",
+    "title": "M2L9: OOP - Encapsulation"
+  },
+  {
+    "id": "m3-l1-file-reading",
+    "title": "M3L1: Reading Files"
+  },
+  {
+    "id": "m3-l10-final-project",
+    "title": "M3L10: Final Project"
+  },
+  {
+    "id": "m3-l2-file-writing",
+    "title": "M3L2: Writing Files"
+  },
+  {
+    "id": "m3-l3-csv-basics",
+    "title": "M3L3: Working with CSV"
+  },
+  {
+    "id": "m3-l4-json-basics",
+    "title": "M3L4: Working with JSON"
+  },
+  {
+    "id": "m3-l5-modules-import",
+    "title": "M3L5: Importing Modules"
+  },
+  {
+    "id": "m3-l6-virtual-env",
+    "title": "M3L6: Virtual Environments"
+  },
+  {
+    "id": "m3-l7-pip-packages",
+    "title": "M3L7: pip and Packages"
+  },
+  {
+    "id": "m3-l8-debugging-tools",
+    "title": "M3L8: Debugging Tools"
+  },
+  {
+    "id": "m3-l9-best-practices",
+    "title": "M3L9: Best Practices"
+  }
 ]
