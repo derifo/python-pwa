@@ -2,41 +2,178 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <meta name="theme-color" content="#1e1e1e" />
   <title>Python Learn PWA</title>
 
   <link rel="manifest" href="pwa/manifest.json" />
   <link rel="stylesheet" href="assets/styles.css" />
 
+  <!-- Base styles -->
+  <style>
+    :root { --bg:#ffffff; --fg:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#2563eb; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0b0f19; --fg:#e5e7eb; --muted:#94a3b8; --panel:#0f172a; --border:#1f2937; --accent:#3b82f6; }
+    }
+    body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .brand{font-weight:700;letter-spacing:.2px}
+    .row{display:flex;gap:12px;height:calc(100vh - 160px);min-height:420px}
+    .col{flex:1;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:hidden}
+    .col header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600}
+    .console{padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow:auto;flex:1}
+    .btn{border:1px solid var(--border);background:var(--bg);color:var(--fg);padding:8px 14px;border-radius:10px;cursor:pointer}
+    .btn.primary{background:var(--accent);color:#fff;border-color:transparent}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .toolbar{display:flex;gap:8px;align-items:center}
+    select{padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--fg)}
+    .status{font-size:12px;color:var(--muted);margin-top:6px}
+    #editor{height:100%;width:100%}
+  </style>
+
+  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 </head>
 <body>
-  <header class="app-header">
-    <h1>Python Learn</h1>
-    <div class="header-actions">
-      <button id="themeToggle" title="Toggle Theme">🌙</button>
-      <button id="installBtn" hidden title="Install App">📲</button>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">Python Learn</div>
+      <div class="toolbar">
+        <label>Examples
+          <select id="example">
+            <option value="hello">Hello World</option>
+            <option value="loop">For Loop</option>
+            <option value="input">Input</option>
+            <option value="list">List Ops</option>
+          </select>
+        </label>
+        <button id="runBtn" class="btn primary">▶ Run</button>
+        <button id="clearBtn" class="btn">⟲ Clear</button>
+      </div>
     </div>
-  </header>
 
-  <div class="app-container">
-    <nav class="sidebar" id="lessonList"></nav>
-    <main class="main-content">
-      <section id="lessonContent" class="lesson-view"></section>
-      <section class="editor-section">
-        <div id="editor" class="code-editor" contenteditable="true"></div>
-        <div class="editor-toolbar">
-          <button id="runBtn">▶ Run</button>
-          <button id="clearOutputBtn">🗑 Clear</button>
-        </div>
-        <pre id="output" class="output-pane"></pre>
-      </section>
-    </main>
+    <div class="row" id="splitRow">
+      <div class="col">
+        <header>Editor <span class="status" id="status">Ready</span></header>
+        <div id="editor"></div>
+      </div>
+      <div class="col">
+        <header>Console <button id="clearConsole" class="btn">Clear</button></header>
+        <div id="console" class="console"></div>
+      </div>
+    </div>
   </div>
 
+  <!-- Your app code (keep only if it doesn't conflict with run logic) -->
   <script src="assets/app.js" type="module"></script>
+
+  <!-- Split.js for resizable panes -->
+  <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+  <script>
+    Split(['#splitRow .col:nth-child(1)', '#splitRow .col:nth-child(2)'], { sizes:[60,40], minSize:240, gutterSize:8 });
+  </script>
+
+  <!-- Monaco loader + UI glue -->
+  <script>
+  (function(){
+    const base="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.49.0/min";
+    const s=document.createElement('script');
+    s.src=base+'/vs/loader.min.js';
+    s.onload=()=>{ require.config({ paths:{'vs': base+'/vs'} }); require(['vs/editor/editor.main'], init); };
+    document.head.appendChild(s);
+
+    function init(){
+      const saved = localStorage.getItem('py_buffer') || 'print("Hello, world!")';
+      const editor = monaco.editor.create(document.getElementById('editor'), {
+        value:saved, language:'python', automaticLayout:true, fontSize:14, minimap:{enabled:false},
+        theme: (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs')
+      });
+
+      const status=document.getElementById('status');
+      const consoleEl=document.getElementById('console');
+      const runBtn=document.getElementById('runBtn');
+      const clearBtn=document.getElementById('clearBtn');
+      const clearConsoleBtn=document.getElementById('clearConsole');
+      const example=document.getElementById('example');
+
+      function setStatus(m){ status.textContent=m; }
+      function log(m){ consoleEl.textContent += m + "\n"; consoleEl.scrollTop = consoleEl.scrollHeight; }
+
+      const EX={
+        hello:'print("Hello, world!")',
+        loop:'for i in range(5):\n    print("i =", i)',
+        input:'name = input("Your name: ")\nprint("Hi,", name)',
+        list:'nums=[1,2,3]\nprint(sum(nums), max(nums))'
+      };
+      example.addEventListener('change', ()=> editor.setValue(EX[example.value] || EX.hello));
+      editor.onDidChangeModelContent(()=> localStorage.setItem('py_buffer', editor.getValue()));
+
+      async function run(){
+        runBtn.disabled=true; setStatus('Running…');
+        const src=editor.getValue(); consoleEl.textContent='';
+        const t0=performance.now();
+        try{
+          const out = await window.runPython(src);   // defined below, uses Skulpt
+          if(out) log(out);
+          setStatus(`Done in ${Math.round(performance.now()-t0)} ms`);
+        }catch(e){
+          log(String(e)); setStatus('Error');
+        }finally{
+          runBtn.disabled=false;
+        }
+      }
+
+      runBtn.addEventListener('click', run);
+      clearBtn.addEventListener('click', ()=> editor.setValue(''));
+      clearConsoleBtn.addEventListener('click', ()=> consoleEl.textContent='');
+
+      window.addEventListener('keydown',(e)=>{
+        if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){ e.preventDefault(); run(); }
+        if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){ e.preventDefault(); localStorage.setItem('py_buffer', editor.getValue()); setStatus('Saved'); }
+        if(e.key==='Escape'){ consoleEl.textContent=''; }
+      });
+    }
+  })();
+  </script>
+
+  <!-- Skulpt-backed runner shim -->
+  <script>
+  (function(){
+    function builtinRead(x){
+      if (!Sk.builtinFiles || !Sk.builtinFiles["files"][x]) {
+        throw "File not found: '" + x + "'";
+      }
+      return Sk.builtinFiles["files"][x];
+    }
+
+    // Expose a promise-based runner the UI calls
+    window.runPython = async function(code){
+      let out = "";
+      function outf(s){ out += s; }
+      function inf(promptText){ const v = window.prompt(promptText || "Input:"); return v === null ? "" : v; }
+
+      Sk.configure({
+        output: outf,
+        read: builtinRead,
+        inputfun: inf,
+        inputfunTakesPrompt: true,
+        __future__: Sk.python3
+      });
+
+      try {
+        await Sk.misceval.asyncToPromise(() =>
+          Sk.importMainWithBody("<stdin>", false, code, true)
+        );
+        return out;
+      } catch (e) {
+        // Append error after any stdout text
+        return out + (out ? "\n" : "") + e.toString();
+      }
+    };
+  })();
+  </script>
 </body>
 </html>
