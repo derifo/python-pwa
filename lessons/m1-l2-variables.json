@@ -2,31 +2,22 @@
   "id": "m1-l2-variables",
   "title": "Variables and Types",
   "sections": [
-    {
-      "type": "read",
-      "contentMarkdown": "Variables store values. Example: `name = 'Alice'`"
-    },
-    {
-      "type": "example",
-      "starterCode": "x = 5\nprint(x)",
-      "explainMarkdown": "Stores 5 in `x` and prints it."
-    },
+    { "type": "read", "contentMarkdown": "Variables store values. `x = 5`" },
+    { "type": "example", "starterCode": "x = 5\nprint(x)", "explainMarkdown": "Stores 5 in x, then prints it." },
     {
       "type": "exercise",
-      "promptMarkdown": "Create a variable `age` with value 30 and print it.",
-      "starterCode": "# TODO: create variable age and print it",
-      "tests": [
-        { "type": "includes", "match": "30" }
-      ],
-      "hints": ["Use = to assign", "print(age)"],
+      "promptMarkdown": "Create `age=30` and print it.",
+      "starterCode": "# TODO",
+      "tests": [{ "type": "includes", "match": "30" }],
+      "hints": ["Use assignment", "print(age)"],
       "solutionCode": "age = 30\nprint(age)"
     },
     {
       "type": "quiz",
-      "question": "Which symbol is used for assignment in Python?",
+      "question": "Which assigns in Python?",
       "choices": ["=", "==", ":"],
       "answerIndex": 0,
-      "explainMarkdown": "Single `=` assigns, double `==` compares."
+      "explainMarkdown": "`=` assigns; `==` compares."
     }
   ]
 }
