@@ -3,7 +3,7 @@ import { loadLessonsList, loadLesson } from '../core/store.js';
 import { initEditor, getCode, setCode } from '../core/editor.js';
 import { runCode } from '../core/executor.js';
 
-const state = { lessons: [], currentLessonId: null };
+const state = { lessons: [], currentLessonId: null, currentLesson: null };
 
 // Function to render the lesson list
 function renderLessonList() {
@@ -30,25 +30,99 @@ function renderLessonList() {
   });
 }
 
+// Function to render sections-based lessons
+function renderSections(sections) {
+  let html = '';
+  let starterCode = '';
+
+  sections.forEach((section, index) => {
+    switch(section.type) {
+      case 'read':
+        html += `<div class="section-read">
+          <p>${section.contentMarkdown.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+        </div>`;
+        break;
+
+      case 'example':
+        html += `<div class="section-example">
+          <h4>Example:</h4>
+          <pre style="background: #f5f5f7; padding: 1rem; border-radius: 8px;">${section.starterCode}</pre>
+          <p><em>${section.explainMarkdown}</em></p>
+        </div>`;
+        if (!starterCode && section.starterCode) {
+          starterCode = section.starterCode;
+        }
+        break;
+
+      case 'exercise':
+        html += `<div class="section-exercise">
+          <h4>Exercise:</h4>
+          <p>${section.promptMarkdown.replace(/`(.*?)`/g, '<code>$1</code>')}</p>
+          ${section.hints ? `<details><summary>Hints</summary><ul>${section.hints.map(h => `<li>${h}</li>`).join('')}</ul></details>` : ''}
+        </div>`;
+        if (!starterCode && section.starterCode && section.starterCode !== '# TODO') {
+          starterCode = section.starterCode;
+        }
+        break;
+
+      case 'quiz':
+        html += `<div class="section-quiz">
+          <h4>Quiz:</h4>
+          <p><strong>${section.question}</strong></p>
+          <ul>${section.choices.map((choice, i) => 
+            `<li>${choice} ${i === section.answerIndex ? '✓' : ''}</li>`
+          ).join('')}</ul>
+          <p><em>${section.explainMarkdown}</em></p>
+        </div>`;
+        break;
+    }
+  });
+
+  return { html, starterCode };
+}
+
 // Function to open a specific lesson
 async function openLesson(lessonId) {
   try {
+    console.log(`Opening lesson: ${lessonId}`);
     const lesson = await loadLesson(lessonId);
     state.currentLessonId = lessonId;
+    state.currentLesson = lesson;
 
     const contentEl = document.getElementById('lessonContent');
     if (contentEl) {
-      contentEl.innerHTML = `
-        <h3>${lesson.title || lessonId}</h3>
-        <div>${lesson.content || 'Loading lesson content...'}</div>
-        ${lesson.code ? `<pre>${lesson.code}</pre>` : ''}
-      `;
+      let html = `<h3>${lesson.title || lessonId}</h3>`;
+      let starterCode = '';
+
+      // Handle sections-based format
+      if (lesson.sections && Array.isArray(lesson.sections)) {
+        const rendered = renderSections(lesson.sections);
+        html += rendered.html;
+        starterCode = rendered.starterCode;
+      } 
+      // Handle traditional format (fallback)
+      else {
+        if (lesson.description) {
+          html += `<p>${lesson.description}</p>`;
+        }
+        if (lesson.content) {
+          html += `<div>${lesson.content}</div>`;
+        }
+        if (lesson.code) {
+          html += `<pre style="background: #f5f5f7; padding: 1rem; border-radius: 8px;">${lesson.code}</pre>`;
+        }
+        starterCode = lesson.starterCode || lesson.code || '';
+      }
+
+      contentEl.innerHTML = html;
+
+      // Load starter code into editor
+      const editorEl = document.getElementById('editor');
+      if (editorEl && starterCode) {
+        editorEl.value = starterCode;
+      }
     }
 
-    // If lesson has starter code, load it into editor
-    if (lesson.starterCode) {
-      setCode(lesson.starterCode);
-    }
   } catch (error) {
     console.error('Error opening lesson:', error);
     const contentEl = document.getElementById('lessonContent');
@@ -59,13 +133,20 @@ async function openLesson(lessonId) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  initUI();
+  console.log('App initializing...');
+
+  // Initialize UI
+  try {
+    initUI();
+  } catch (error) {
+    console.log('UI initialization error (may be normal):', error);
+  }
 
   // Initialize editor
   try { 
     initEditor(); 
   } catch (error) {
-    console.log('Editor initialization:', error);
+    console.log('Editor initialization error (may be normal):', error);
   }
 
   // Wire up Run button
@@ -77,7 +158,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     runBtn.addEventListener('click', async () => {
       outputEl.textContent = 'Running...\n';
       try {
-        const result = await runCode(getCode());
+        const editorEl = document.getElementById('editor');
+        const code = editorEl ? editorEl.value : getCode();
+        const result = await runCode(code);
         outputEl.textContent = result.stdout || '';
         if (result.stderr) {
           outputEl.textContent += '\nError: ' + result.stderr;
