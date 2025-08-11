@@ -6,6 +6,10 @@ export function setEngine(name) {
 
 export async function runCode(source, { inputs = [] } = {}) {
   if (engine === 'skulpt') {
+    // Check if Skulpt is available
+    if (typeof Sk === 'undefined') {
+      throw new Error('Python interpreter not loaded. Please refresh the page.');
+    }
     return await runSkulpt(source, inputs);
   }
   throw new Error(`Engine ${engine} not implemented`);
@@ -26,6 +30,17 @@ async function runSkulpt(source, inputs) {
       const val = inputs[inputIndex] || '';
       inputIndex++;
       return val;
+    }
+
+    // Check again before configuring
+    if (typeof Sk === 'undefined') {
+      resolve({
+        stdout: '',
+        stderr: 'Error: Python interpreter (Skulpt) is not loaded. Please refresh the page.',
+        errors: ['Skulpt not loaded'],
+        timeMs: 0
+      });
+      return;
     }
 
     Sk.configure({
