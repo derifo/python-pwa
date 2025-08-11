@@ -2,31 +2,22 @@
   "id": "m1-l1-hello-world",
   "title": "Hello, World!",
   "sections": [
-    {
-      "type": "read",
-      "contentMarkdown": "Welcome to Python! Let's start with the classic **Hello, World!** program."
-    },
-    {
-      "type": "example",
-      "starterCode": "print('Hello, World!')",
-      "explainMarkdown": "`print()` outputs text to the screen."
-    },
+    { "type": "read", "contentMarkdown": "Welcome to Python! Start with **Hello, World!**" },
+    { "type": "example", "starterCode": "print('Hello, World!')", "explainMarkdown": "print() writes text." },
     {
       "type": "exercise",
-      "promptMarkdown": "Write a program that prints `Hello, Python!`",
-      "starterCode": "# TODO: print Hello, Python!",
-      "tests": [
-        { "type": "includes", "match": "Hello, Python!" }
-      ],
-      "hints": ["Use print()", "Remember quotes around text"],
+      "promptMarkdown": "Print `Hello, Python!`",
+      "starterCode": "# TODO",
+      "tests": [{ "type": "includes", "match": "Hello, Python!" }],
+      "hints": ["Use print()"],
       "solutionCode": "print('Hello, Python!')"
     },
     {
       "type": "quiz",
-      "question": "What does `print()` do?",
+      "question": "What does print() do?",
       "choices": ["Stores data", "Displays output", "Takes input"],
       "answerIndex": 1,
-      "explainMarkdown": "`print()` sends data to the output."
+      "explainMarkdown": "It displays output."
     }
   ]
 }
