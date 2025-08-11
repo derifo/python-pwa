@@ -33,38 +33,22 @@ function renderLessonList() {
 // Function to open a specific lesson
 async function openLesson(lessonId) {
   try {
-    console.log(`Opening lesson: ${lessonId}`);
     const lesson = await loadLesson(lessonId);
     state.currentLessonId = lessonId;
 
     const contentEl = document.getElementById('lessonContent');
     if (contentEl) {
-      // Simple HTML rendering without calling non-existent functions
-      let html = `<h3>${lesson.title || lessonId}</h3>`;
-
-      if (lesson.description) {
-        html += `<p>${lesson.description}</p>`;
-      }
-
-      if (lesson.content) {
-        html += `<div>${lesson.content}</div>`;
-      }
-
-      if (lesson.code) {
-        html += `<pre style="background: #f5f5f7; padding: 1rem; border-radius: 8px; overflow-x: auto;">${lesson.code}</pre>`;
-      }
-
-      contentEl.innerHTML = html;
+      contentEl.innerHTML = `
+        <h3>${lesson.title || lessonId}</h3>
+        <div>${lesson.content || 'Loading lesson content...'}</div>
+        ${lesson.code ? `<pre>${lesson.code}</pre>` : ''}
+      `;
     }
 
     // If lesson has starter code, load it into editor
-    const editorEl = document.getElementById('editor');
-    if (lesson.starterCode && editorEl) {
-      editorEl.value = lesson.starterCode;
-    } else if (lesson.code && editorEl) {
-      editorEl.value = lesson.code;
+    if (lesson.starterCode) {
+      setCode(lesson.starterCode);
     }
-
   } catch (error) {
     console.error('Error opening lesson:', error);
     const contentEl = document.getElementById('lessonContent');
@@ -75,20 +59,13 @@ async function openLesson(lessonId) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('App initializing...');
-
-  // Initialize UI
-  try {
-    initUI();
-  } catch (error) {
-    console.log('UI initialization error (may be normal):', error);
-  }
+  initUI();
 
   // Initialize editor
   try { 
     initEditor(); 
   } catch (error) {
-    console.log('Editor initialization error (may be normal):', error);
+    console.log('Editor initialization:', error);
   }
 
   // Wire up Run button
@@ -100,9 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     runBtn.addEventListener('click', async () => {
       outputEl.textContent = 'Running...\n';
       try {
-        const editorEl = document.getElementById('editor');
-        const code = editorEl ? editorEl.value : getCode();
-        const result = await runCode(code);
+        const result = await runCode(getCode());
         outputEl.textContent = result.stdout || '';
         if (result.stderr) {
           outputEl.textContent += '\nError: ' + result.stderr;
