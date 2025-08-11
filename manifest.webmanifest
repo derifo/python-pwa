@@ -1,16 +1,172 @@
 {
-  "name": "Python Learn",
-  "short_name": "PythonLearn",
-  "start_url": "./",
-  "scope": "./",
+  "name": "Learn Python - Interactive Coding Lessons",
+  "short_name": "Learn Python",
+  "description": "iPad-friendly Progressive Web App for learning Python with interactive lessons, exercises, and quizzes. Run Python code directly in your browser with no installation required.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#3776ab",
   "background_color": "#ffffff",
-  "theme_color": "#0b0f19",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["education", "developer", "productivity"],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "icons": [
-    { "src": "pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "pwa/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "pwa/icons/icon-180.png", "sizes": "180x180", "type": "image/png" },
-    { "src": "pwa/icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "pwa/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "/assets/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshot-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Learn Python home screen with lessons"
+    },
+    {
+      "src": "/assets/screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Interactive Python code editor"
+    },
+    {
+      "src": "/assets/screenshot-3.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Python exercises and quizzes"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Code Editor",
+      "short_name": "Editor",
+      "description": "Open the Python code editor",
+      "url": "/editor",
+      "icons": [
+        {
+          "src": "/assets/shortcut-editor.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Lessons",
+      "short_name": "Lessons",
+      "description": "Browse Python lessons",
+      "url": "/lessons",
+      "icons": [
+        {
+          "src": "/assets/shortcut-lessons.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Progress",
+      "short_name": "Progress",
+      "description": "View your learning progress",
+      "url": "/progress",
+      "icons": [
+        {
+          "src": "/assets/shortcut-progress.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "file",
+          "accept": [".py", "text/plain", "text/python"]
+        }
+      ]
+    }
+  },
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "edge_side_panel": {
+    "preferred_width": 480
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "file_handlers": [
+    {
+      "action": "/open",
+      "accept": {
+        "text/python": [".py"],
+        "text/plain": [".txt"]
+      }
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+learnpython",
+      "url": "/lesson?id=%s"
+    }
   ]
 }
