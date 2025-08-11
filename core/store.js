@@ -1,5 +1,5 @@
 export async function loadLessonsList() {
-  const res = await fetch('lessons/index.json');
+  const res = await fetch(`${window.location.pathname}lessons/index.json`);
   const data = await res.json();
 
   return data.map(lesson => ({
@@ -9,7 +9,7 @@ export async function loadLessonsList() {
 }
 
 export async function loadLesson(id) {
-  const res = await fetch(`lessons/${id}.json`);
+  const res = await fetch(`${window.location.pathname}lessons/index.json`);
   return await res.json();
 }
 
