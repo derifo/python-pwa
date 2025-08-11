@@ -1,4 +1,4 @@
-// app.js - Complete version with module organization
+// app.js - Fixed version with proper regex
 import { loadLessons, loadLesson } from './store.js';
 import { runCode } from '../core/executor.js';
 
@@ -219,19 +219,20 @@ function renderLessonContent(lesson) {
         // Convert markdown-style content to HTML
         let content = section.content;
 
-        // Convert code blocks
-        content = content.replace(/```python
-([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
-        content = content.replace(/```
-([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+        // Convert code blocks - Fixed regex
+        const codeBlockRegex = /```python\n([\s\S]*?)```/g;
+        content = content.replace(codeBlockRegex, '<pre><code>$1</code></pre>');
+
+        const genericCodeBlockRegex = /```\n([\s\S]*?)```/g;
+        content = content.replace(genericCodeBlockRegex, '<pre><code>$1</code></pre>');
 
         // Convert inline code
-        content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
+        const inlineCodeRegex = /`([^`]+)`/g;
+        content = content.replace(inlineCodeRegex, '<code>$1</code>');
 
         // Convert line breaks to paragraphs
-        content = content.split('
-
-').map(para => 
+        const paragraphs = content.split('\n\n');
+        content = paragraphs.map(para => 
           para.trim() ? `<p>${para}</p>` : ''
         ).join('');
 
@@ -400,3 +401,4 @@ init();
 window.openLesson = openLesson;
 window.markAsComplete = markAsComplete;
 window.toggleModule = toggleModule;
+window.updateProgress = updateProgress;
