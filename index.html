@@ -6,52 +6,79 @@
   <title>Learn Python - Interactive Lessons</title>
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="manifest" href="pwa/manifest.json">
-  <meta name="theme-color" content="#3b82f6">
+  <meta name="theme-color" content="#4cafef">
   <link rel="apple-touch-icon" href="pwa/icons/icon-180.png">
-
-  <!-- Skulpt Libraries for Python Execution -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/0.11.1/skulpt.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/0.11.1/skulpt-stdlib.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
+  <header class="app-header">
+    <div class="header-title">
       <h1>🐍 Learn Python</h1>
-      <p>Interactive lessons for beginners</p>
-    </header>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle">🌙</button>
+    </div>
+  </header>
 
-    <div class="main-layout">
-      <aside class="sidebar">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
         <h2>Lessons</h2>
-        <div id="lessonList" class="lesson-list">
-          <div style="padding:8px;color:#9ca3af">Loading lessons...</div>
-        </div>
-      </aside>
+      </div>
+      <div id="lessonList" class="lesson-list">
+        <div style="padding:8px;color:#9ca3af">Loading lessons...</div>
+      </div>
+    </aside>
 
-      <main class="content">
+    <main class="main-content">
+      <div class="lesson-view">
         <div id="lessonContent" class="lesson-content">
-          <p>Select a lesson to begin</p>
+          <p style="text-align: center; color: #9ca3af;">Select a lesson to begin</p>
         </div>
+      </div>
 
-        <div class="editor-section">
+      <div class="code-panel">
+        <div class="editor-container">
           <div class="editor-header">
-            <h3>Code Editor</h3>
-            <button id="runBtn" class="btn btn-primary">▶ Run</button>
+            <span>Code Editor</span>
+            <button id="runBtn" class="run-btn">▶ Run</button>
           </div>
           <textarea id="editor" class="code-editor" placeholder="# Write your Python code here..."></textarea>
         </div>
 
-        <div class="output-section">
+        <div class="output-container">
           <div class="output-header">
-            <h3>Output</h3>
-            <button id="clearOutputBtn" class="btn btn-secondary">Clear</button>
+            <span>Output</span>
+            <button id="clearOutputBtn" class="clear-btn">Clear</button>
           </div>
           <pre id="output" class="output"></pre>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 
+  <!-- Skulpt Libraries - MUST be loaded BEFORE app.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/0.11.1/skulpt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/0.11.1/skulpt-stdlib.js"></script>
+
+  <!-- Add a check to ensure Skulpt is loaded -->
+  <script>
+    // Wait for Skulpt to be available
+    if (typeof Sk === 'undefined') {
+      console.error('Skulpt failed to load! Python execution will not work.');
+      // Fallback: try to load from alternative CDN
+      var script1 = document.createElement('script');
+      script1.src = 'https://cdn.jsdelivr.net/npm/skulpt@0.11.1/dist/skulpt.min.js';
+      document.head.appendChild(script1);
+
+      var script2 = document.createElement('script');
+      script2.src = 'https://cdn.jsdelivr.net/npm/skulpt@0.11.1/dist/skulpt-stdlib.js';
+      document.head.appendChild(script2);
+    } else {
+      console.log('✅ Skulpt loaded successfully');
+    }
+  </script>
+
+  <!-- Load app after Skulpt -->
   <script type="module" src="assets/app.js"></script>
 </body>
 </html>
