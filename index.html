@@ -58,4 +58,173 @@
     header .left, header .right { display: flex; gap: .5rem; align-items: center; }
     header h1 { font-weight: 600; font-size: 1.25rem; margin: 0; }
     .btn, .icon-btn {
-      displa
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .55rem .9rem; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--panel); color: var(--fg);
+      cursor: pointer; font-size: .95rem;
+    }
+    .btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+    .icon-btn { padding: .45rem .7rem; font-size: 1.1rem; background: transparent; }
+    .avatar { border-radius: 999px; padding: .4rem .7rem; border: 1px solid var(--border); background: var(--panel); }
+
+    main { padding: 1rem; }
+    .hero { padding: 2.25rem 0; }
+    .hero h2 { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.15; margin: .2em 0; }
+    .hero p { color: var(--muted); max-width: 800px; margin: .4rem 0 0 0; }
+
+    #lessonList { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 1.5rem; }
+    #lessonList button {
+      background-color: var(--panel);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      color: var(--fg);
+      transition: background-color 0.15s, color 0.15s, transform .05s;
+    }
+    #lessonList button:active { transform: translateY(1px); }
+    #lessonList button:hover { background-color: var(--accent); color: #fff; }
+
+    #lessonContent { margin-bottom: 1.5rem; line-height: 1.6; border: 1px solid var(--border); background: var(--panel); border-radius: var(--radius); padding: 1rem; }
+
+    textarea#editor {
+      width: 100%; height: 200px; background-color: var(--panel); color: var(--fg);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1rem; resize: vertical;
+    }
+
+    .buttons { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+    button.run, button.clear {
+      padding: 0.6rem 1.2rem; font-size: 1rem; border: none; border-radius: var(--radius); cursor: pointer;
+      background-color: var(--accent); color: #fff; transition: background-color 0.2s;
+    }
+    button.clear { background-color: var(--muted); color: #fff; }
+
+    pre#output {
+      background-color: var(--panel); border: 1px solid var(--border);
+      padding: 1rem; border-radius: var(--radius); margin-top: 1rem; white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* Progress + KPIs */
+    .kpis { display: flex; gap: .75rem; flex-wrap: wrap; margin: 1rem 0 1.25rem; }
+    .kpi {
+      flex: 1; min-width: 160px; background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: .9rem;
+    }
+    .kpi .label { color: var(--muted); font-size: .85rem; }
+    .kpi .value { font-weight: 700; font-size: 1.2rem; margin-top: .25rem; }
+    .progress { height: 10px; border-radius: 999px; background: color-mix(in oklab, var(--panel) 70%, var(--border)); overflow: hidden; border: 1px solid var(--border); }
+    .progress > span { display: block; height: 100%; width: 0%; background: var(--accent); transition: width .35s ease; }
+
+    footer { border-top: 1px solid var(--border); padding: 1rem 0; color: var(--muted); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    * { touch-action: manipulation; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left">
+      <h1>Python Learn</h1>
+    </div>
+    <div class="right">
+      <button class="btn" id="installBtn" hidden>Install</button>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+      <button class="avatar" id="profileBtn" title="Profile">👤</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h2>Learn Python. Anywhere. Even on iPad.</h2>
+      <p>Offline-first PWA with progress tracking and achievements. Clean, Apple-style UI.</p>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis" aria-label="Your stats">
+      <div class="kpi">
+        <div class="label">XP</div>
+        <div class="value" id="kpiXP">0</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Achievements</div>
+        <div class="value" id="kpiAch">0</div>
+      </div>
+      <div class="kpi" style="flex:2">
+        <div class="label">Course Progress</div>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span id="progressInner" style="width:0%"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lessons -->
+    <div id="lessonList"></div>
+    <div id="lessonContent"></div>
+
+    <textarea id="editor" placeholder="Write your Python code here..."></textarea>
+    <div class="buttons">
+      <button class="run" id="runBtn">Run</button>
+      <button class="clear" id="clearOutputBtn">Clear Output</button>
+    </div>
+    <pre id="output"></pre>
+  </main>
+
+  <!-- App JS -->
+  <script type="module" src="app/app.js"></script>
+
+  <!-- Theme toggle + PWA wiring -->
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+
+    function setTheme(mode) {
+      root.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      themeToggle.textContent = mode === 'dark' ? '☀️' : '🌙';
+    }
+    themeToggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme') || 'light';
+      setTheme(current === 'light' ? 'dark' : 'light');
+    });
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme ? savedTheme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+
+    // PWA install prompt
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.hidden = false;
+    });
+    installBtn?.addEventListener('click', async () => {
+      installBtn.hidden = true;
+      await deferredPrompt?.prompt();
+      deferredPrompt = null;
+    });
+
+    // Service Worker (relative to <base>)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('pwa/sw.js').catch(console.error);
+      });
+    }
+
+    // Minimal progress hooks (your app/app.js should update these IDs)
+    // Example: call these from your logic after loading lessons/progress
+    window.__updateKPI = function ({ xp = 0, achievements = 0, progressPct = 0 }) {
+      const xpEl = document.getElementById('kpiXP');
+      const achEl = document.getElementById('kpiAch');
+      const bar = document.getElementById('progressInner');
+      const pb = bar?.parentElement;
+      if (xpEl) xpEl.textContent = xp;
+      if (achEl) achEl.textContent = achievements;
+      if (bar && pb) {
+        bar.style.width = Math.max(0, Math.min(100, progressPct)) + '%';
+        pb.setAttribute('aria-valuenow', String(Math.round(progressPct)));
+      }
+    };
+  </script>
+</body>
+</html>
