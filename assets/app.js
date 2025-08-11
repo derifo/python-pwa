@@ -43,6 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (listEl) listEl.innerHTML =
       '<div style="padding:8px;color:#ef4444">Error loading lessons. Check lessons/index.json path.</div>';
   }
+ 
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('pwa/sw.js').catch(console.error);
+  });
+}
 });
 
 // ----------------- UI renderers -----------------
