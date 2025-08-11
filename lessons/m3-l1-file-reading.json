@@ -1,0 +1,32 @@
+{
+  "id": "m3-l1-file-reading",
+  "title": "File Reading",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Reading files in Python is done using the built-in `open()` function and `read()` or iteration."
+    },
+    {
+      "type": "example",
+      "starterCode": "with open('example.txt', 'r') as f:\n    content = f.read()\nprint(content)",
+      "explainMarkdown": "`with open()` automatically closes the file."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Read the file `data.txt` and print its contents.",
+      "starterCode": "# TODO: read data.txt",
+      "tests": [
+        { "type": "includes", "match": "Hello" }
+      ],
+      "hints": ["Use open()", "Use read()"],
+      "solutionCode": "with open('data.txt', 'r') as f:\n    print(f.read())"
+    },
+    {
+      "type": "quiz",
+      "question": "What does the 'r' mode mean in open()?",
+      "choices": ["read", "replace", "rename"],
+      "answerIndex": 0,
+      "explainMarkdown": "'r' means read mode."
+    }
+  ]
+}

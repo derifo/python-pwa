@@ -1,0 +1,32 @@
+{
+  "id": "m2-l1-advanced-functions",
+  "title": "Advanced Functions",
+  "sections": [
+    {
+      "type": "read",
+      "contentMarkdown": "Functions can have default arguments, keyword arguments, and variable arguments using *args and **kwargs."
+    },
+    {
+      "type": "example",
+      "starterCode": "def greet(name='World'):\n    print(f'Hello, {name}!')\n\ngreet()\ngreet('Alice')",
+      "explainMarkdown": "Shows default argument usage."
+    },
+    {
+      "type": "exercise",
+      "promptMarkdown": "Write a function that sums any number of arguments.",
+      "starterCode": "# TODO: sum variable arguments",
+      "tests": [
+        { "type": "includes", "match": "6", "inputs": [""] }
+      ],
+      "hints": ["Use *args and sum()"],
+      "solutionCode": "def total(*args):\n    return sum(args)\nprint(total(1, 2, 3))"
+    },
+    {
+      "type": "quiz",
+      "question": "What does `**kwargs` capture?",
+      "choices": ["A tuple of arguments", "A dictionary of keyword arguments", "A list of arguments"],
+      "answerIndex": 1,
+      "explainMarkdown": "`**kwargs` stores keyword arguments as a dictionary."
+    }
+  ]
+}
