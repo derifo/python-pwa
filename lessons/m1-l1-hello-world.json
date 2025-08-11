@@ -1,23 +1,13 @@
 {
   "id": "m1-l1-hello-world",
-  "title": "Hello, World!",
-  "sections": [
-    { "type": "read", "contentMarkdown": "Welcome to Python! Start with **Hello, World!**" },
-    { "type": "example", "starterCode": "print('Hello, World!')", "explainMarkdown": "print() writes text." },
-    {
-      "type": "exercise",
-      "promptMarkdown": "Print `Hello, Python!`",
-      "starterCode": "# TODO",
-      "tests": [{ "type": "includes", "match": "Hello, Python!" }],
-      "hints": ["Use print()"],
-      "solutionCode": "print('Hello, Python!')"
-    },
-    {
-      "type": "quiz",
-      "question": "What does print() do?",
-      "choices": ["Stores data", "Displays output", "Takes input"],
-      "answerIndex": 1,
-      "explainMarkdown": "It displays output."
-    }
+  "title": "M1L1: Hello, World!",
+  "description": "Welcome to Python! In this first lesson, we'll write our first Python program.",
+  "content": "\n<p>Python is a powerful, easy-to-learn programming language. Let's start with the traditional first program that every programmer writes: Hello, World!</p>\n\n<h4>The print() function</h4>\n<p>In Python, we use the <code>print()</code> function to display text on the screen. Here's how it works:</p>\n\n<ul>\n<li>Type <code>print()</code></li>\n<li>Put your text inside quotes within the parentheses</li>\n<li>Run the code to see the output</li>\n</ul>\n\n<h4>Try it yourself!</h4>\n<p>Modify the code below to print your own message:</p>\n",
+  "starterCode": "# This is a comment - it won't run\n# Comments start with the # symbol\n\n# Let's print Hello, World!\nprint(\"Hello, World!\")\n\n# Try adding your own print statement below:\n",
+  "solution": "print(\"Hello, World!\")\nprint(\"Welcome to Python!\")\nprint(\"I'm learning to code!\")",
+  "hints": [
+    "Remember to put your text inside quotes",
+    "Each print() statement will display on a new line",
+    "You can use either single quotes ('') or double quotes (\"\")"
   ]
 }
