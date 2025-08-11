@@ -1,216 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/python-pwa/">
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta name="theme-color" content="#1e1e1e" />
-  <title>Python Learn PWA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Python Learn</title>
 
-  <link rel="manifest" href="pwa/manifest.json" />
-  <link rel="stylesheet" href="assets/styles.css" />
+  <!-- Base path for GitHub Pages -->
+  <base href="/python-pwa/">
 
-  <!-- Base styles -->
+  <!-- Apple-style PWA support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- CSS Variables + Apple-style theme -->
   <style>
-    :root { --bg:#ffffff; --fg:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#2563eb; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg:#0b0f19; --fg:#e5e7eb; --muted:#94a3b8; --panel:#0f172a; --border:#1f2937; --accent:#3b82f6; }
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --accent: #0071e3;
+      --muted: #6e6e73;
+      --panel: #f5f5f7;
     }
-    body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif}
-
-    /* --- NEW: app frame with sidebar (lessons) + main --- */
-    .app-frame{display:flex;gap:12px;max-width:1200px;margin:0 auto;padding:20px}
-    .sidebar{width:260px;min-width:220px;border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:auto;max-height:calc(100vh - 120px)}
-    .sidebar h3{margin:0;padding:10px 12px;border-bottom:1px solid var(--border);font-size:14px}
-    #lessonList{padding:8px}
-    #lessonList button{display:block;width:100%;text-align:left;border:1px solid var(--border);background:var(--bg);color:var(--fg);padding:8px 10px;margin-bottom:8px;border-radius:10px;cursor:pointer}
-    #lessonList button.completed{outline:2px solid #22c55e}
-    .maincol{flex:1;display:flex;flex-direction:column;gap:12px}
-
-    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px auto 0;max-width:1200px;padding:0 20px}
-    .brand{font-weight:700;letter-spacing:.2px}
-
-    /* Lesson content panel */
-    .lesson-card{border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:hidden}
-    .lesson-card header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600}
-    #lessonContent{padding:12px;max-height:260px;overflow:auto}
-
-    /* Editor/console split (your original) */
-    .row{display:flex;gap:12px;height:calc(100vh - 220px);min-height:420px}
-    .col{flex:1;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:hidden}
-    .col header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600}
-    .console{padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow:auto;flex:1}
-    .btn{border:1px solid var(--border);background:var(--bg);color:var(--fg);padding:8px 14px;border-radius:10px;cursor:pointer}
-    .btn.primary{background:var(--accent);color:#fff;border-color:transparent}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-    .toolbar{display:flex;gap:8px;align-items:center}
-    select{padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--fg)}
-    .status{font-size:12px;color:var(--muted);margin-left:8px}
-    #editor{height:100%;width:100%}
+    [data-theme="dark"] {
+      --bg: #000000;
+      --fg: #f5f5f7;
+      --accent: #0a84ff;
+      --muted: #a1a1a6;
+      --panel: #1c1c1e;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--panel);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      font-weight: 600;
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--fg);
+      transition: color 0.3s;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    #lessonList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    #lessonList button {
+      background-color: var(--panel);
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      color: var(--fg);
+      transition: background-color 0.2s;
+    }
+    #lessonList button:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+    #lessonContent {
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    textarea#editor {
+      width: 100%;
+      height: 200px;
+      background-color: var(--panel);
+      color: var(--fg);
+      border: none;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    .buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    button.run, button.clear {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      background-color: var(--accent);
+      color: #fff;
+      transition: background-color 0.2s;
+    }
+    button.clear {
+      background-color: var(--muted);
+    }
+    pre#output {
+      background-color: var(--panel);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
   </style>
-
-  <!-- Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 </head>
 <body>
-  <!-- Top bar -->
-  <div class="topbar">
-    <div class="brand">Python Learn</div>
-    <div class="toolbar">
-      <label>Examples
-        <select id="example">
-          <option value="hello">Hello World</option>
-          <option value="loop">For Loop</option>
-          <option value="input">Input</option>
-          <option value="list">List Ops</option>
-        </select>
-      </label>
-      <button id="runBtn" class="btn primary">▶ Run</button>
-      <button id="clearBtn" class="btn">⟲ Clear</button>
+  <header>
+    <h1>Python Learn</h1>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+  </header>
+
+  <main>
+    <div id="lessonList"></div>
+    <div id="lessonContent"></div>
+
+    <textarea id="editor" placeholder="Write your Python code here..."></textarea>
+    <div class="buttons">
+      <button class="run" id="runBtn">Run</button>
+      <button class="clear" id="clearOutputBtn">Clear Output</button>
     </div>
-  </div>
+    <pre id="output"></pre>
+  </main>
 
-  <!-- NEW: sidebar + main column -->
-  <div class="app-frame">
-    <aside class="sidebar">
-      <h3>Lessons</h3>
-      <!-- ID MUST be lessonList for assets/app.js -->
-      <nav id="lessonList"></nav>
-    </aside>
+  <script type="module" src="app/app.js"></script>
 
-    <div class="maincol">
-      <!-- Lesson content area (used by assets/app.js) -->
-      <section class="lesson-card">
-        <header>Lesson</header>
-        <div id="lessonContent"></div>
-      </section>
-
-      <!-- Your original editor/console split -->
-      <div class="row" id="splitRow">
-        <div class="col">
-          <header>
-            <span>Editor</span>
-            <span class="status" id="status">Ready</span>
-          </header>
-          <div id="editor"></div>
-        </div>
-        <div class="col">
-          <header>
-            <span>Console</span>
-            <button id="clearConsole" class="btn">Clear</button>
-          </header>
-          <div id="console" class="console"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Your app code (lesson loader/UI, keep this) -->
-  <script src="assets/app.js" type="module"></script>
-
-  <!-- Split.js for resizable panes -->
-  <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
   <script>
-    Split(['#splitRow .col:nth-child(1)', '#splitRow .col:nth-child(2)'], { sizes:[60,40], minSize:240, gutterSize:8 });
-  </script>
+    // Theme toggle logic
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
 
-  <!-- Monaco loader + UI glue -->
-  <script>
-  (function(){
-    const base="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.49.0/min";
-    const s=document.createElement('script');
-    s.src=base+'/vs/loader.min.js';
-    s.onload=()=>{ require.config({ paths:{'vs': base+'/vs'} }); require(['vs/editor/editor.main'], init); };
-    document.head.appendChild(s);
-
-    function init(){
-      const saved = localStorage.getItem('py_buffer') || 'print("Hello, world!")';
-      const editor = monaco.editor.create(document.getElementById('editor'), {
-        value:saved, language:'python', automaticLayout:true, fontSize:14, minimap:{enabled:false},
-        theme: (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs')
-      });
-
-      const status=document.getElementById('status');
-      const consoleEl=document.getElementById('console');
-      const runBtn=document.getElementById('runBtn');
-      const clearBtn=document.getElementById('clearBtn');
-      const clearConsoleBtn=document.getElementById('clearConsole');
-      const example=document.getElementById('example');
-
-      function setStatus(m){ status.textContent=m; }
-      function log(m){ consoleEl.textContent += m + "\n"; consoleEl.scrollTop = consoleEl.scrollHeight; }
-
-      const EX={
-        hello:'print("Hello, world!")',
-        loop:'for i in range(5):\n    print("i =", i)',
-        input:'name = input("Your name: ")\nprint("Hi,", name)',
-        list:'nums=[1,2,3]\nprint(sum(nums), max(nums))'
-      };
-      example.addEventListener('change', ()=> editor.setValue(EX[example.value] || EX.hello));
-      editor.onDidChangeModelContent(()=> localStorage.setItem('py_buffer', editor.getValue()));
-
-      async function run(){
-        runBtn.disabled=true; setStatus('Running…');
-        const src=editor.getValue(); consoleEl.textContent='';
-        const t0=performance.now();
-        try{
-          const out = await window.runPython(src);   // defined below, uses Skulpt
-          if(out) log(out);
-          setStatus(`Done in ${Math.round(performance.now()-t0)} ms`);
-        }catch(e){
-          log(String(e)); setStatus('Error');
-        }finally{
-          runBtn.disabled=false;
-        }
-      }
-
-      runBtn.addEventListener('click', run);
-      clearBtn.addEventListener('click', ()=> editor.setValue(''));
-      clearConsoleBtn.addEventListener('click', ()=> consoleEl.textContent='');
-
-      window.addEventListener('keydown',(e)=>{
-        if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){ e.preventDefault(); run(); }
-        if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){ e.preventDefault(); localStorage.setItem('py_buffer', editor.getValue()); setStatus('Saved'); }
-        if(e.key==='Escape'){ consoleEl.textContent=''; }
-      });
+    function setTheme(mode) {
+      root.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      themeToggle.textContent = mode === 'dark' ? '☀️' : '🌙';
     }
-  })();
-  </script>
 
-  <!-- Skulpt-backed runner shim -->
-  <script>
-  (function(){
-    function builtinRead(x){
-      if (!Sk.builtinFiles || !Sk.builtinFiles["files"][x]) {
-        throw "File not found: '" + x + "'";
-      }
-      return Sk.builtinFiles["files"][x];
+    themeToggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme') || 'light';
+      setTheme(current === 'light' ? 'dark' : 'light');
+    });
+
+    // Initialize theme from localStorage or prefers-color-scheme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     }
-    window.runPython = async function(code){
-      let out = "";
-      function outf(s){ out += s; }
-      function inf(promptText){ const v = window.prompt(promptText || "Input:"); return v === null ? "" : v; }
-
-      Sk.configure({
-        output: outf,
-        read: builtinRead,
-        inputfun: inf,
-        inputfunTakesPrompt: true,
-        __future__: Sk.python3
-      });
-
-      try {
-        await Sk.misceval.asyncToPromise(() =>
-          Sk.importMainWithBody("<stdin>", false, code, true)
-        );
-        return out;
-      } catch (e) {
-        return out + (out ? "\n" : "") + e.toString();
-      }
-    };
-  })();
   </script>
 </body>
 </html>
